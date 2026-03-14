@@ -141,7 +141,7 @@ flowchart LR
 
 ![Dashboard Rzeszow](docs/dashboard-rzeszow.png)
 
-# Konfiguracja miast
+# Konfiguracja
 
 Lista miast znajduje się w pliku:
 
