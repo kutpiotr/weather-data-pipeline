@@ -36,26 +36,29 @@ Projekt realizuje następujące zadania:
 
 # Technologie
 
-- Python  
-- requests  
-- pandas  
-- SQLite  
-- SQL  
-- Streamlit  
+- Python
+- requests
+- pandas
+- SQLite
+- SQL
+- Streamlit
+- python-dotenv
+- Docker
 
 ---
 
 # Struktura projektu
 
-```
+
+```text
 weather-data-pipeline/
 │
 ├── app/
 │   ├── analyze_weather_data.py
 │   ├── dashboard.py
 │   ├── init_db.py
-│   ├── main.py
-│   │
+│   ├── logger.py
+│   ├── settings.py
 │   └── pipeline/
 │       ├── config.py
 │       ├── extract.py
@@ -64,14 +67,17 @@ weather-data-pipeline/
 │       └── transform.py
 │
 ├── data/
-│   └── weather.db
+│   └── weather.db (tworzony lokalnie po uruchomieniu projektu)
 │
 ├── docs/
-|
+│   
+│
 ├── sql/
 │   └── schema.sql
 │
+├── .env.example
 ├── .gitignore
+├── Dockerfile
 ├── README.md
 └── requirements.txt
 ```
@@ -107,6 +113,11 @@ Dane mogą być analizowane za pomocą zapytań SQL oraz skryptu Python wykorzys
 ## 5. Dashboard
 
 Dane są prezentowane w prostym dashboardzie **Streamlit** z filtrowaniem po mieście.
+
+---
+## Logowanie
+
+Projekt wykorzystuje moduł `logging` zamiast samych `print()`, dzięki czemu podczas uruchamiania pipeline'u w konsoli pojawiają się czytelne komunikaty z timestampem, poziomem logowania i nazwą modułu.
 
 ---
 ## Diagram architektury
@@ -145,63 +156,76 @@ Przykładowo projekt pobiera dane dla:
 - Warsaw
 - Gdansk
 
+Projekt korzysta z pliku `.env`, w którym można ustawić podstawowe parametry uruchomienia, np.:
+
+- `API_TIMEOUT`
+- `TIMEZONE`
+- `DB_PATH`
+- `TABLE_NAME`
+- `LOG_LEVEL`
+
+Przykładowa konfiguracja znajduje się w pliku:
+
+```text
+.env.example
+```
 ---
+
+
 
 # Jak uruchomić projekt
 
 ## 1. Sklonuj repozytorium
 
 ```bash
-git clone <https://github.com/kutpiotr/weather-data-pipeline>
+git clone https://github.com/kutpiotr/weather-data-pipeline
 cd weather-data-pipeline
 ```
 
 ---
 
-## 2. Utwórz środowisko wirtualne
+### 2. Utwórz i aktywuj środowisko wirtualne
 
-### Windows PowerShell
+#### Windows PowerShell
 
 ```powershell
 python -m venv .venv
 .venv\Scripts\Activate.ps1
 ```
 
----
-
-## 3. Zainstaluj zależności
+### 3. Zainstaluj zależności
 
 ```bash
 pip install -r requirements.txt
 ```
 
----
+### 4. Utwórz plik `.env`
 
-## 4. Utwórz bazę danych
+Skopiuj plik przykładowy:
 
-```bash
-python app/init_db.py
+```powershell
+copy .env.example .env
 ```
 
----
-
-## 5. Uruchom pipeline danych
+### 5. Utwórz bazę danych
 
 ```bash
-python app/pipeline/run_pipeline.py
+python -m app.init_db
 ```
 
----
-
-## 6. Uruchom analizę danych
+### 6. Uruchom pipeline danych
 
 ```bash
-python app/analyze_weather_data.py
+python -m app.pipeline.run_pipeline
 ```
 
----
+### 7. Uruchom analizę danych
 
-## 7. Uruchom dashboard
+```bash
+python -m app.analyze_weather_data
+```
+
+### 8. Uruchom dashboard
 
 ```bash
 python -m streamlit run app/dashboard.py
@@ -220,6 +244,21 @@ python -m streamlit run app/dashboard.py
 
 ---
 
+# Docker
+
+Projekt zawiera opcjonalny `Dockerfile`, który pozwala uruchomić dashboard Streamlit w kontenerze.
+
+Przykładowe budowanie obrazu:
+
+```bash
+docker build -t weather-data-pipeline .
+```
+
+Przykładowe uruchomienie:
+
+```bash
+docker run -p 8501:8501 weather-data-pipeline
+```
 
 # Możliwe ulepszenia
 
@@ -227,8 +266,6 @@ Projekt można rozbudować o:
 
 - usuwanie duplikatów danych
 - automatyczne odświeżanie pipeline'u
-- Docker
-- plik `.env`
 - logowanie błędów
 - więcej wykresów w dashboardzie
 - deployment aplikacji online

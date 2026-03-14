@@ -4,7 +4,7 @@ from pathlib import Path
 import pandas as pd
 
 BASE_DIR=Path(__file__).resolve().parent.parent
-DB_PATH=BASE_DIR/"data"/"weather.db"
+from app.settings import DB_PATH
 
 def run_query(query):
     with sqlite3.connect(DB_PATH) as connection:

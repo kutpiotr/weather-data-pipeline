@@ -1,9 +1,9 @@
 import pandas as pd
 
-from config import CITIES
-from extract import fetch_weather_data
-from transform import transform_weather_data
-from load import load_to_sqlite
+from app.pipeline.config import CITIES
+from app.pipeline.extract import fetch_weather_data
+from app.pipeline.transform import transform_weather_data
+from app.pipeline.load import load_to_sqlite
 
 def main():
     dataframes=[]

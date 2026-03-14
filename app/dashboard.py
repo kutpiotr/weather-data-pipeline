@@ -5,7 +5,7 @@ import pandas as pd
 import streamlit as st
 
 BASE_DIR=Path(__file__).resolve().parent.parent
-DB_PATH=BASE_DIR/"data"/"weather.db"
+from app.settings import DB_PATH
 
 st.set_page_config(page_title="Weather Data Dashboard",layout="wide")
 
@@ -59,5 +59,5 @@ st.line_chart(chart_df)
 st.subheader("Tabela danych")
 st.dataframe(
     filtered_df.sort_values("date"),
-    use_container_width=True
+    width="stretch"
 )

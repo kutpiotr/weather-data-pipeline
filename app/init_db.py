@@ -1,8 +1,12 @@
 import sqlite3
 from pathlib import Path
 
+from app.logger import get_logger
+from app.settings import DB_PATH
+
+logger=get_logger(__name__)
+
 BASE_DIR=Path(__file__).resolve().parent.parent
-DB_PATH=BASE_DIR/"data"/"weather.db"
 SCHEMA_PATH=BASE_DIR/"sql"/"schema.sql"
 
 def init_database():
@@ -10,7 +14,8 @@ def init_database():
         with open(SCHEMA_PATH,"r",encoding="utf-8") as file:
             schema_sql=file.read()
         connection.executescript(schema_sql)
-    print(f"Database initialized successfully: {DB_PATH}")
+
+    logger.info(f"Database initialized successfully: {DB_PATH}")
 
 if __name__=="__main__":
     init_database()
