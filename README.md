@@ -67,7 +67,7 @@ weather-data-pipeline/
 │   └── weather.db
 │
 ├── docs/
-├── notebooks/
+|
 ├── sql/
 │   └── schema.sql
 │
@@ -109,6 +109,26 @@ Dane mogą być analizowane za pomocą zapytań SQL oraz skryptu Python wykorzys
 Dane są prezentowane w prostym dashboardzie **Streamlit** z filtrowaniem po mieście.
 
 ---
+## Diagram architektury
+
+```mermaid
+flowchart LR
+    A[Open-Meteo API] --> B[Extract]
+    B --> C[Transform]
+    C --> D[Load]
+    D --> E[(SQLite weather.db)]
+    E --> F[SQL Analysis]
+    E --> G[Streamlit Dashboard]
+```
+---
+## Screenshots
+### Dashboard Gdańsk
+
+![Dashboard Gdansk](docs/screenshots/dashboard-gdansk.png)
+
+### Dashboard Rzeszów
+
+![Dashboard Rzeszow](docs/screenshots/dashboard-rzeszow.png)
 
 # Konfiguracja miast
 
@@ -132,7 +152,7 @@ Przykładowo projekt pobiera dane dla:
 ## 1. Sklonuj repozytorium
 
 ```bash
-git clone <URL_REPOZYTORIUM>
+git clone <https://github.com/kutpiotr/weather-data-pipeline>
 cd weather-data-pipeline
 ```
 
