@@ -124,11 +124,11 @@ flowchart LR
 ## Screenshots
 ### Dashboard Gdańsk
 
-![Dashboard Gdansk](docs/screenshots/dashboard-gdansk.png)
+![Dashboard Gdansk](docs/dashboard-gdansk.png)
 
 ### Dashboard Rzeszów
 
-![Dashboard Rzeszow](docs/screenshots/dashboard-rzeszow.png)
+![Dashboard Rzeszow](docs/dashboard-rzeszow.png)
 
 # Konfiguracja miast
 
